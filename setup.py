@@ -11,10 +11,11 @@ setup(
     description='KeepAlive Notifier',
     entry_points={
         'console_scripts': [
-                'lmk=lmk:_lmk',
+                'lmk=lmk:lmk',
         ],
     },
     install_requires=[
         'click==6.6',
+        'click-didyoumean==0.0.3',
     ]
 )
