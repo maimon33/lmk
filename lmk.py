@@ -26,11 +26,6 @@ def _config():
     config = {'LMK_GMAIL_ACCOUNT': LMK_GMAIL_ACCOUNT, 'LMK_GMAIL_PASSWORD': LMK_GMAIL_PASSWORD, 'LMK_DESTINATION': LMK_DESTINATION}
     with open(CONFIG_PATH, 'w') as f:
         json.dump(config, f)
-    # with open(CONFIG_PATH,'a') as config_file:
-    #     out.write('{}{}\n'.format("export LMK_GMAIL_ACCOUNT=",LMK_GMAIL_ACCOUNT))
-    #     out.write('{}{}\n'.format("export LMK_GMAIL_PASSWORD=",LMK_GMAIL_PASSWORD))
-    #     out.write('{}{}\n'.format("export LMK_DESTINATION=",LMK_DESTINATION))
-    # os.system('bash -c \'grep LMK {} > ./tmprc\''.format(PROFILE))
 
 def _isvalidemail(email):
     import re
@@ -52,6 +47,7 @@ def _send_mail(destination, msg):
     server.login(os.environ.get("LMK_GMAIL_ACCOUNT"), os.environ.get("LMK_GMAIL_PASSWORD"))
     server.sendmail(os.environ.get("LMK_GMAIL_ACCOUNT"), os.environ.get("LMK_DESTINATION"), 'Subject: {}\n\n{}'.format(subject, msg))
     server.quit()
+
 class CommandExecute(object):
     def __init__(self, command):
         self.command = command
@@ -100,16 +96,16 @@ def lmk(config=None):
     try:
         with open(CONFIG_PATH) as config_file:
             cfg = json.load(config_file)
+        if cfg['LMK_GMAIL_ACCOUNT'] and cfg['LMK_GMAIL_PASSWORD'] and cfg['LMK_DESTINATION']:
+            pass
+        else:
+            _missing_creds()
     except IOError:
         _missing_creds()
 
-    try:
-        cfg['LMK_GMAIL_ACCOUNT'] and cfg['LMK_GMAIL_PASSWORD'] and cfg['LMK_DESTINATION']
-    except IOError:
-        _missing_creds()
 
-    print "Hi2"
     with CommandExecute(sys.stdin) as f:
+        print f
         print "Hi!"
         for line in f:
             print f
