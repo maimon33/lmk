@@ -4,6 +4,7 @@ import sys
 import json
 import smtplib
 import readline
+import subprocess
 
 from os.path import expanduser
 
@@ -103,9 +104,8 @@ def lmk(config=None):
     except IOError:
         _missing_creds()
 
+    echo_last_command = subprocess.Popen(('echo', '"!:-1"'), stdout=subprocess.PIPE)
+    print echo_last_command.stdout.read()
 
-    with CommandExecute(sys.stdin) as f:
-        print f
-        print "Hi!"
-        for line in f:
-            print f
+
+
